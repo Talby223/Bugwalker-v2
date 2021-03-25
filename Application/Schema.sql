@@ -8,7 +8,7 @@ CREATE TABLE builds (
 CREATE TABLE specs (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
     game_id INT NOT NULL UNIQUE,
-    game_class_id INT NOT NULL UNIQUE,
+    game_class_id INT NOT NULL,
     spec_name TEXT NOT NULL,
     spec_description TEXT NOT NULL,
     spec_icon TEXT NOT NULL
@@ -20,7 +20,7 @@ CREATE TABLE spells (
     spell_name TEXT NOT NULL,
     spell_description TEXT NOT NULL,
     spell_icon TEXT NOT NULL,
-    spec_id UUID NOT NULL
+    spec_ids TEXT NOT NULL
 );
 CREATE TABLE users (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
@@ -35,14 +35,17 @@ CREATE TABLE users (
     password_salt TEXT NOT NULL,
     user_avatar TEXT NOT NULL
 );
+CREATE TYPE bug_severity AS ENUM ('low', 'medium', 'critical');
+CREATE TYPE bug_type AS ENUM ('mechanical', 'visual', 'system');
+CREATE TYPE bug_status AS ENUM ('pending', 'open', 'closed');
 CREATE TABLE bugs (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
     spell_id UUID NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     modified_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    bug_severity INT DEFAULT 0 NOT NULL,
-    bug_type INT DEFAULT 0 NOT NULL,
-    bug_status INT DEFAULT 0 NOT NULL,
+    bug_severity bug_severity NOT NULL,
+    bug_type bug_type NOT NULL,
+    bug_status bug_status NOT NULL,
     bug_tags TEXT NOT NULL,
     bug_description TEXT NOT NULL,
     bug_content TEXT NOT NULL,
@@ -57,11 +60,6 @@ CREATE TABLE comments (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     comment_status INT DEFAULT 0 NOT NULL
 );
-ALTER TABLE bugs ADD CONSTRAINT bugs_ref_spell_id FOREIGN KEY (spell_id) REFERENCES spells (id) ON DELETE NO ACTION;
-ALTER TABLE bugs ADD CONSTRAINT bugs_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
-ALTER TABLE comments ADD CONSTRAINT comments_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
-ALTER TABLE spells ADD CONSTRAINT spells_ref_build_id FOREIGN KEY (build_id) REFERENCES builds (id) ON DELETE NO ACTION;
-ALTER TABLE spells ADD CONSTRAINT spells_ref_spec_id FOREIGN KEY (spec_id) REFERENCES specs (id) ON DELETE NO ACTION;
 CREATE TABLE run_game_asset_update_jobs (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
@@ -72,3 +70,7 @@ CREATE TABLE run_game_asset_update_jobs (
     locked_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
     locked_by UUID DEFAULT NULL
 );
+ALTER TABLE bugs ADD CONSTRAINT bugs_ref_spell_id FOREIGN KEY (spell_id) REFERENCES spells (id) ON DELETE NO ACTION;
+ALTER TABLE bugs ADD CONSTRAINT bugs_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
+ALTER TABLE comments ADD CONSTRAINT comments_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
+ALTER TABLE spells ADD CONSTRAINT spells_ref_build_id FOREIGN KEY (build_id) REFERENCES builds (id) ON DELETE NO ACTION;
