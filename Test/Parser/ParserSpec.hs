@@ -7,49 +7,70 @@ import Data.Attoparsec.Text
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
 import Test.Hspec
-import Test.Hspec.Attoparsec
 import Web.Controller.Prelude
 import Generated.Types
+import qualified Data.Map as M
+import qualified Data.ByteString.Lazy as BL
 --
 import Application.Parser.Parser
 --
-
--- {{{ ## ParserBuildString Tests 
--- | Testing the spellDump build string parser 
-
-testParserBuildString = do
-    describe "parsing WoW build string from a SpellDump example line" $ do
-        it "correctly parses 9.0.5.37988 build string" $ do
-            ("SimulationCraft 905-01 for World of Warcraft \
-            \9.0.5.37988 Live (hotfix 2021-03-19/37988)\n" :: T.Text) ~> parserBuildString `shouldParse` "9.0.5.37988"
-        it "correctly parses 9.0.5.37311 build string without hotfix" $ do
-            ("SimulationCraft 905-01 for World of Warcraft \
-            \9.0.5.37311\n" :: T.Text) ~> parserBuildString `shouldParse` "9.0.5.37311"
-        it "correctly parses 9.1.0.2122 build string without hotfix" $ do
-            ("SimulationCraft 910-02 for World of Warcraft \
-            \9.1.0.2122\n" :: T.Text) ~> parserBuildString `shouldParse` "9.1.0.2122"
--- }}}
 
 -- {{{ ## ParserSpell tests
 
 testParserSpell = do
     describe "parsing single spells from a SpellDump example" $ do
         let testDir = "Test/TestData/Parser/"
-        it "parses the 'OneSpell.txt' file correctly" $ do
-            c <- TIO.readFile $ testDir ++ "OneSpell.txt"
-            parserSpell `shouldSucceedOn` (c :: T.Text)
-        it "parses the 'TwoSpells.txt' file correctly" $ do
-            c <- TIO.readFile $ testDir ++ "TwoSpells.txt"
-            parserSpells `shouldSucceedOn` (c :: T.Text)
-        it "parses the 'TwoSpells.txt' file correctly" $ do
-            c <- TIO.readFile $ testDir ++ "TwoSpells.txt"
-            let sp1 = newRecord @Spell |> set #spellName "Cone of Cold" |> set #gameId 120 |> set #spellDescription "Targets in a cone in front of you take $s1 Frost damage and have movement slowed by $212792m1% for $212792d." 
-            let sp2 = newRecord @Spell |> set #spellName "Frost Nova" |> set #gameId 122 |> set #spellDescription "Blasts enemies within $A2 yds of you for $s2 Frost damage and freezes them in place for $d. Damage may interrupt the freeze effect." 
-            (c :: T.Text) ~> parserSpells `shouldParse` [sp1,sp2]   
+        it "parses the spellIds from 'spellclassoptions.csv' into a map" $ do
+            c <- BL.readFile $ testDir ++ "spellclassoptions.csv"
+            let m = parseSpellIdsToMap c M.empty
+            case m of
+              Left err -> True `shouldBe` False 
+              Right m -> length m `shouldBe` 16371
+        it "parses the spellNames from 'spellname.csv' into a map and checks a name" $ do
+            c <- BL.readFile $ testDir ++ "spellclassoptions.csv"
+            n <- BL.readFile $ testDir ++ "spellname.csv"
+            let m = parseSpellIdsToMap c M.empty
+            case m of
+              Left err -> do
+                  putStrLn $ "Error: " ++ show err
+                  True `shouldBe` False 
+              Right m -> do
+                  length m `shouldBe` 16371
+                  let names = parseSpellNamesToMap n m
+                  case names of
+                    Left err -> putStrLn $ "Error: " ++ show err
+                    Right nm -> do
+                        length nm `shouldBe` 16371
+                        let bs = nm M.! 53
+                        get #spellName bs `shouldBe` "Backstab"
+        it "parses the spellDescs from 'spell.csv' into a map and checks a description" $ do
+            c <- BL.readFile $ testDir ++ "spellclassoptions.csv"
+            n <- BL.readFile $ testDir ++ "spell.csv"
+            let m = parseSpellIdsToMap c M.empty
+            case m of
+              Left err -> do
+                  putStrLn $ "Error: " ++ show err
+                  True `shouldBe` False 
+              Right m -> do
+                  length m `shouldBe` 16371
+                  let names = parseSpellDescToMap n m
+                  case names of
+                    Left err -> putStrLn $ "Error: " ++ show err
+                    Right nm -> do
+                        length nm `shouldBe` 16371
+                        let bs = nm M.! 17
+                        get #spellDescription bs `shouldBe` "Shields an ally for $d, absorbing $<shield> damage.  You cannot shield the target again for $6788d."
+        it "parses the specialisations from 'chrspecialization.csv' into a map" $ do
+            c <- BL.readFile $ testDir ++ "chrspecialization.csv"
+            let m = parseChrSpecsToMap c M.empty
+            case m of
+              Left err -> True `shouldBe` False 
+              Right m -> do
+                  length m `shouldBe` 54
+                  let shadow = m M.! 258
+                  chrSpecName shadow `shouldBe` "Shadow"
                   
 
 -- }}}
 
-testParserSpec = hspec $ do
-    testParserBuildString
-    testParserSpell
+testParserSpec = hspec testParserSpell

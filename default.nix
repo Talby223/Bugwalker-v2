@@ -12,9 +12,9 @@ let
             text
             hlint
             p.ihp
-            attoparsec
             hspec
-            hspec-attoparsec
+            http-client
+            cassava
         ];
         otherDeps = p: with p; [
             # Native dependencies, e.g. imagemagick
