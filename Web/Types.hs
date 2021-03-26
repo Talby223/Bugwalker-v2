@@ -33,3 +33,12 @@ data SessionsController
     deriving (Eq, Show, Data)
 
     
+data SpellsController
+    = SpellsAction
+    | NewSpellAction
+    | ShowSpellAction { spellId :: !(Id Spell) }
+    | CreateSpellAction
+    | EditSpellAction { spellId :: !(Id Spell) }
+    | UpdateSpellAction { spellId :: !(Id Spell) }
+    | DeleteSpellAction { spellId :: !(Id Spell) }
+    deriving (Eq, Show, Data)

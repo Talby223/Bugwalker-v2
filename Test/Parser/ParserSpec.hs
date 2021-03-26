@@ -69,7 +69,14 @@ testParserSpell = do
                   length m `shouldBe` 54
                   let shadow = m M.! 258
                   chrSpecName shadow `shouldBe` "Shadow"
-                  
+        it "parses the spell <-> specialisations from 'specializationspells.csv' into a tuplelist" $ do
+            c <- BL.readFile $ testDir ++ "specializationspells.csv"
+            let m = parseSpellSpecsToMap c
+            case m of
+              Left err -> True `shouldBe` False 
+              Right m -> do
+                  length m `shouldBe` 948
+                  length (filter (\c -> fst c == 346104) m) `shouldBe` 2
 
 -- }}}
 

@@ -12,15 +12,18 @@ import           IHP.Prelude
 import           Network.HTTP.Simple
 import           Web.Controller.Prelude
 
+-- | Helper function that updates the SpellMap specId fields with the correct specId
 f :: [Int] -> M.Map Int (Id Spec) -> M.Map Int Spell -> M.Map Int Spell
 f [] _ m     = m
 f (x:xs) p m = f xs p $ M.adjust (\s -> s |> set #specIds (show $ p M.! fromRight 0 (parseOnly decimal (get #specIds s)))) x m
 
-h :: [Int] -> [(Int, T.Text)] -> M.Map Int Spell -> M.Map Int Spell
-h [] _ m         = m
-h _ [] m         = m
-h (k:ks) ((x,y):xs) m = h ks xs $ M.adjust (\s -> s |> set #specIds (get #specIds s ++ "," ++ y)) k m
+-- | Helper function that given a tuplelist of (specGameId, specId) populates the SpellMap
+-- with the correct specIds from the db, concatenating multiple values together
+g :: [(Int, Int)] -> M.Map Int (Id Spec) -> M.Map Int Spell -> M.Map Int Spell
+g [] _ m          = m
+g ((x,y):xs) sm m = g xs sm $ M.adjust (\s -> s |> set #specIds (get #specIds s ++ "," ++ show (sm M.! y))) x m
 
+-- | The actual run script
 run :: Script
 run = do
     putStrLn "Running ParseInsertSpells script.. "
@@ -30,7 +33,6 @@ run = do
     let specIds = map (get #id) specs
     let specMap = M.fromList $ zip specGameIds specIds
     putStrLn "Parsing spells.."
-    mapM_ (\(k,v) -> putStrLn $ show k ++ " " ++ show v) $ M.toList specMap
     spClassOptionsCsv <- BL.readFile "Test/TestData/Parser/spellclassoptions.csv"
     case parseSpellIdsToMap spClassOptionsCsv M.empty of
       Left err -> putStrLn $ "Failed to parse SpellClassOptions. Aborting. " ++ show err
@@ -48,6 +50,13 @@ run = do
                   Left err -> putStrLn $ "Failed to parse SpellDescs. Aborting. " ++ show err
                   Right m' -> do
                       putStrLn "Done. Parsing spell specs..."
-                      deleteAll @Spell
-                      ins <- createMany $ M.elems m'
-                      putStrLn "Done"
+                      spSpellSpecsCsv <- BL.readFile "Test/TestData/Parser/specializationspells.csv"
+                      case parseSpellSpecsToMap spSpellSpecsCsv of
+                        Left err -> putStrLn $ "Failed to parse spellSpecs. Aborting - ERR: " ++ show err
+                        Right ss -> do
+                            let fss = filter (\(p,q) -> p `elem` M.keys m' && q `elem` M.keys specMap) ss
+                            let pog = g fss specMap m'
+                            deleteAll @Spell
+                            ins <- createMany $ M.elems pog
+                            putStrLn "Done"
+

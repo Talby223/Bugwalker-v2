@@ -10,13 +10,14 @@ instance View IndexView where
                 <li class="breadcrumb-item active"><a href={SpecsAction}>Specs</a></li>
             </ol>
         </nav>
-        <h1>Index <a href={pathTo NewSpecAction} class="btn btn-primary ml-4">+ New</a></h1>
+        <h1>Specs <a href={pathTo NewSpecAction} class="btn btn-primary ml-4">+ New</a></h1>
         <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Spec</th>
-                        <th></th>
+                        <th>GameId</th>
+                        <th>Name</th>
+                        <th>Description</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -29,9 +30,17 @@ instance View IndexView where
 
 renderSpec spec = [hsx|
     <tr>
-        <td>{spec}</td>
-        <td><a href={ShowSpecAction (get #id spec)}>Show</a></td>
-        <td><a href={EditSpecAction (get #id spec)} class="text-muted">Edit</a></td>
-        <td><a href={DeleteSpecAction (get #id spec)} class="js-delete text-muted">Delete</a></td>
+        <td><a href={ShowSpecAction (get #id spec)}>{get #gameId spec}</a></td>
+        <td>{get #specName spec}</td>
+        <td>{get #specDescription spec}</td>
+        <td>
+            <a href={EditSpecAction (get #id spec)} class="btn btn-primary btn-sm">
+                <i class="fa fa-edit" />
+            </a>
+        </td> 
+        <td><a href={DeleteSpecAction (get #id spec)} class="js-delete btn btn-danger btn-sm">
+                <i class="fa fa-trash"/>
+            </a>
+        </td>
     </tr>
 |]

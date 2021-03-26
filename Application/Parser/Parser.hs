@@ -49,7 +49,15 @@ data CsvChrSpec = CsvChrSpec
 
 instance FromNamedRecord CsvChrSpec where
     parseNamedRecord r =
-        CsvChrSpec <$> r .: "Name_lang" <*> r .: "ID" <*> r .: "Description_lang" <*> r .: "ClassID" 
+        CsvChrSpec <$> r .: "Name_lang" <*> r .: "ID" <*> r .: "Description_lang" <*> r .: "ClassID"
+
+data CsvSpellSpec = CsvSpellSpec
+    { spellSpecSpellId :: Int,
+      spellSpecSpecId :: Int
+    }
+instance FromNamedRecord CsvSpellSpec where
+    parseNamedRecord r =
+        CsvSpellSpec <$> r .: "SpellID" <*> r .: "SpecID"
 
 -- }}}
 
@@ -80,13 +88,13 @@ parseSpellIdsToMap :: BL.ByteString -> M.Map Int Spell -> Either String (M.Map I
 parseSpellIdsToMap csvData m =
     case decodeByName csvData of
       Left err -> Left err
-      Right (_, v) -> 
+      Right (_, v) ->
           Right $ f v m
               where f x m'
                       | V.null x = m'
-                      | otherwise = f (V.tail x) $ 
-                          M.insert (spellID (V.head x)) (newRecord @Spell 
-                          |> set #gameId (spellID (V.head x)) 
+                      | otherwise = f (V.tail x) $
+                          M.insert (spellID (V.head x)) (newRecord @Spell
+                          |> set #gameId (spellID (V.head x))
                           |> set #specIds (show (spellClassSetToClassId $ spellClassSet (V.head x)))
                           |> set #buildId "c87b35d7-f107-4f57-90f8-c0c6035e3ff2") m'
 
@@ -101,7 +109,7 @@ parseSpellNamesToMap csvData m =
           Right $ f v m
               where f x m'
                       | V.null x = m'
-                      | otherwise = f (V.tail x) $ M.adjust (\s -> 
+                      | otherwise = f (V.tail x) $ M.adjust (\s ->
                           s |> set #spellName (spellNameLang (V.head x))) (spellNameId (V.head x)) m'
 
 -- | Takes the contents of a csv file containing all the spellIds and their descriptions
@@ -114,7 +122,7 @@ parseSpellDescToMap csvData m = do
           Right $ f v m
               where f x m'
                       | V.null x = m'
-                      | otherwise = f (V.tail x) $ M.adjust (\s -> 
+                      | otherwise = f (V.tail x) $ M.adjust (\s ->
                           s |> set #spellDescription (spellDescLang (V.head x))) (spellDescId (V.head x)) m'
 
 -- | Takes the contents of a csv file containing all the character specialisations
@@ -127,6 +135,19 @@ parseChrSpecsToMap csvData m = do
           Right $ f v m
               where f x m'
                       | V.null x = m'
-                      | otherwise = f (V.tail x) $ M.insert (chrSpecId (V.head x)) (V.head x) m' 
+                      | otherwise = f (V.tail x) $ M.insert (chrSpecId (V.head x)) (V.head x) m'
 
+
+-- | Takes the contents of a csv file containing all the spells associated with a specialisations
+-- e.g. from https://wow.tools/dbc/?dbc=specializationspells and returns a list of tuples of (spellId, specId) or an error
+parseSpellSpecsToMap :: BL.ByteString -> Either String [(Int,Int)]
+parseSpellSpecsToMap csvData = do
+    case decodeByName csvData of
+      Left err -> Left err
+      Right (_, v) ->
+          Right $ f v []
+              where f x m'
+                      | V.null x = m'
+                      | otherwise = f (V.tail x) $
+                          (spellSpecSpellId $ V.head x,spellSpecSpecId $ V.head x):m'
 -- }}}

@@ -8,7 +8,7 @@ import Web.View.Specs.Show
 
 instance Controller SpecsController where
     action SpecsAction = do
-        specs <- query @Spec |> fetch
+        specs <- query @Spec |> orderByAsc #gameId |> fetch
         render IndexView { .. }
 
     action NewSpecAction = do

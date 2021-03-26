@@ -9,3 +9,6 @@ instance AutoRoute SpecsController
 instance AutoRoute SessionsController
 
 
+
+instance AutoRoute SpellsController
+
