@@ -12,3 +12,6 @@ instance AutoRoute SessionsController
 
 instance AutoRoute SpellsController
 
+
+instance AutoRoute BugsController
+

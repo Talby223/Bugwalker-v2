@@ -20,7 +20,7 @@ defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
     <title>Bugwalker | WoW Community bugtracker</title>
 </head>
 <body>
-    <div class="container mt-4">
+    <div class="container-fluid mt-4">
         {renderFlashMessages}
         {inner}
     </div>
@@ -32,6 +32,9 @@ stylesheets = [hsx|
         <link rel="stylesheet" href="/vendor/bootstrap.min.css"/>
         <link rel="stylesheet" href="/vendor/flatpickr.min.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.6/css/dx.common.css">
+        <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.6/css/dx.darkmoon.css">
+
         <link rel="stylesheet" href="/app.css"/>
     |]
 
@@ -49,6 +52,7 @@ scripts = [hsx|
         <script src="/vendor/turbolinksMorphdom.js"></script>
         <script src="/helpers.js"></script>
         <script src="/ihp-auto-refresh.js"></script>
+        <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/20.2.6/js/dx.all.js"></script>
     |]
 
 metaTags :: Html
