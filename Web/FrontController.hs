@@ -21,13 +21,6 @@ instance FrontController WebApplication where
         , parseRoute @SessionsController
         ]
 
-
-instance FrontController WebApplication where
-    controllers =
-        [ startPage WelcomeAction
-        , parseRoute @SessionsController -- <--------------- add this
-        -- Generator Marker
-        ]
         
 instance InitControllerContext WebApplication where
     initContext = do
