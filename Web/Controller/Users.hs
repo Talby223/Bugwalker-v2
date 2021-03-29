@@ -67,7 +67,7 @@ instance Controller UsersController where
                     user <- user
                         |> set #passwordHash hashed
                         |> createRecord
-                    setSuccessMessage "Glad to have you, Bugwalker!"
+                    setSuccessMessage "Glad to have you, Bugwalker! You may now log in."
                     redirectTo NewSessionAction
 
 
