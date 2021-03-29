@@ -7,11 +7,9 @@ import Web.Types
 instance AutoRoute StaticController
 instance AutoRoute SpecsController
 instance AutoRoute SessionsController
-
-
-
 instance AutoRoute SpellsController
-
-
 instance AutoRoute BugsController
+
+
+instance AutoRoute UsersController
 

@@ -1,13 +1,12 @@
 module Web.Types where
 
-import IHP.Prelude
-import IHP.ModelSupport
-import Generated.Types
-import IHP.LoginSupport.Types
+import           Generated.Types
+import           IHP.LoginSupport.Types
+import           IHP.ModelSupport
+import           IHP.Prelude
 
 
 data WebApplication = WebApplication deriving (Eq, Show)
-
 
 data StaticController = WelcomeAction deriving (Eq, Show, Data)
 
@@ -21,10 +20,6 @@ data SpecsController
     | DeleteSpecAction { specId :: !(Id Spec) }
     deriving (Eq, Show, Data)
 
-instance HasNewSessionUrl User where
-    newSessionUrl _ = "/NewSession"
-
-type instance CurrentUserRecord = User
 
 data SessionsController
     = NewSessionAction
@@ -32,7 +27,7 @@ data SessionsController
     | DeleteSessionAction
     deriving (Eq, Show, Data)
 
-    
+
 data SpellsController
     = SpellsAction
     | NewSpellAction
@@ -51,4 +46,19 @@ data BugsController
     | EditBugAction { bugId :: !(Id Bug) }
     | UpdateBugAction { bugId :: !(Id Bug) }
     | DeleteBugAction { bugId :: !(Id Bug) }
+    deriving (Eq, Show, Data)
+
+instance HasNewSessionUrl User where
+    newSessionUrl _ = "/NewSession"
+
+type instance CurrentUserRecord = User
+
+data UsersController
+    = UsersAction
+    | NewUserAction
+    | ShowUserAction { userId :: !(Id User) }
+    | CreateUserAction
+    | EditUserAction { userId :: !(Id User) }
+    | UpdateUserAction { userId :: !(Id User) }
+    | DeleteUserAction { userId :: !(Id User) }
     deriving (Eq, Show, Data)

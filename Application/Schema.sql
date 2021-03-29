@@ -28,12 +28,13 @@ CREATE TABLE users (
     email TEXT NOT NULL UNIQUE,
     last_login TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     password_hash TEXT NOT NULL,
-    locked_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    locked_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
     failed_login_attempts INT DEFAULT 0 NOT NULL,
     username TEXT NOT NULL UNIQUE,
     user_role INT DEFAULT 1 NOT NULL,
     password_salt TEXT NOT NULL,
-    user_avatar TEXT NOT NULL
+    user_avatar TEXT NOT NULL,
+    logins INT DEFAULT 0 NOT NULL
 );
 CREATE TYPE bug_severity AS ENUM ('low', 'medium', 'critical');
 CREATE TYPE bug_type AS ENUM ('mechanical', 'visual', 'system');
