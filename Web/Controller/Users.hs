@@ -7,11 +7,17 @@ import Web.View.Users.Edit
 import Web.View.Users.Show
 
 import qualified Data.Text as T
+import Data.Char 
 
 isPasswordLongEnough :: Text -> ValidatorResult
 isPasswordLongEnough s
   | T.length s > 7 = Success
   | otherwise = Failure "Password needs to be at least 8 characters long." 
+
+isAlphaNumeric :: Text -> ValidatorResult
+isAlphaNumeric s
+    | foldr ((&&) . isAlphaNum) True (T.unpack s) = Success
+    | otherwise     = Failure "Please only use letters and numbers in your username" 
 
 
 instance Controller UsersController where
@@ -51,6 +57,7 @@ instance Controller UsersController where
             |> validateField #passwordHash nonEmpty
             |> validateField #username nonEmpty
             |> validateField #username (hasMinLength 3)
+            |> validateField #username isAlphaNumeric
             |> validateIsUnique #username
             >>= validateIsUnique #email
             >>= ifValid \case
@@ -61,6 +68,8 @@ instance Controller UsersController where
                         |> set #passwordHash hashed
                         |> createRecord
                     setSuccessMessage "Glad to have you, Bugwalker!"
+                    redirectTo NewSessionAction
+
 
         let user = newRecord @User
         user
