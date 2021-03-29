@@ -21,15 +21,15 @@ data SpecsController
     | DeleteSpecAction { specId :: !(Id Spec) }
     deriving (Eq, Show, Data)
 
-instance HasNewSessionUrl User where
-    newSessionUrl _ = "/NewSession"
-
-type instance CurrentUserRecord = User
-
 data SessionsController
     = NewSessionAction
     | CreateSessionAction
     | DeleteSessionAction
     deriving (Eq, Show, Data)
+
+instance HasNewSessionUrl User where
+    newSessionUrl _ = "/NewSession"
+
+type instance CurrentUserRecord = User
 
     

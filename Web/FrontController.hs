@@ -7,15 +7,30 @@ import Web.View.Layout (defaultLayout)
 -- Controller Imports
 import Web.Controller.Specs
 import Web.Controller.Static
+import Web.Controller.Sessions
+import IHP.LoginSupport.Middleware
+import Web.Controller.Sessions
+
+
 
 instance FrontController WebApplication where
     controllers = 
         [ startPage WelcomeAction
         -- Generator Marker
         , parseRoute @SpecsController
+        , parseRoute @SessionsController
         ]
 
+
+instance FrontController WebApplication where
+    controllers =
+        [ startPage WelcomeAction
+        , parseRoute @SessionsController -- <--------------- add this
+        -- Generator Marker
+        ]
+        
 instance InitControllerContext WebApplication where
     initContext = do
         setLayout defaultLayout
         initAutoRefresh
+        initAuthentication @User

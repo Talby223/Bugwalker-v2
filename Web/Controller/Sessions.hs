@@ -3,6 +3,9 @@ module Web.Controller.Sessions where
 import Web.Controller.Prelude
 import Web.View.Sessions.New
 import qualified IHP.AuthSupport.Controller.Sessions as Sessions
+import IHP.Controller.BasicAuth
+
+
 
 instance Controller SessionsController where
     action NewSessionAction = Sessions.newSessionAction @User
@@ -10,3 +13,5 @@ instance Controller SessionsController where
     action DeleteSessionAction = Sessions.deleteSessionAction @User
 
 instance Sessions.SessionsControllerConfig User
+
+

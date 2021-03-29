@@ -18,7 +18,7 @@ instance View (NewView User) where
 
 renderForm :: User -> Html
 renderForm user = [hsx|
-    <form method="POST"`` action={CreateSessionAction}>
+    <form method="POST" action={CreateSessionAction}>
         <div class="form-group">
             <input name="email" value={get #email user} type="email" class="form-control" placeholder="E-Mail" required="required" autofocus="autofocus" />
         </div>
