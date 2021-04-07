@@ -28,7 +28,7 @@ CREATE TABLE users (
     email TEXT NOT NULL UNIQUE,
     last_login TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     password_hash TEXT NOT NULL,
-    locked_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    locked_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
     failed_login_attempts INT DEFAULT 0 NOT NULL,
     username TEXT NOT NULL UNIQUE,
     user_role INT DEFAULT 1 NOT NULL,
