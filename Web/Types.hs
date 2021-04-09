@@ -42,3 +42,13 @@ data UsersController
     | UpdateUserAction { userId :: !(Id User) }
     | DeleteUserAction { userId :: !(Id User) }
     deriving (Eq, Show, Data)
+
+data BugsController
+    = BugsAction
+    | NewBugAction
+    | ShowBugAction { bugId :: !(Id Bug) }
+    | CreateBugAction
+    | EditBugAction { bugId :: !(Id Bug) }
+    | UpdateBugAction { bugId :: !(Id Bug) }
+    | DeleteBugAction { bugId :: !(Id Bug) }
+    deriving (Eq, Show, Data)
