@@ -1,6 +1,9 @@
 module Web.View.Bugs.Show where
 import Web.View.Prelude
 
+import qualified Text.MMark as MMark -- markdown library (mmark)
+
+
 data ShowView = ShowView { bug :: Bug }
 
 instance View ShowView where
@@ -14,3 +17,6 @@ instance View ShowView where
         <h1>Show Bug</h1>
         <p>{bug}</p>
     |]
+
+renderMarkdown text = text
+

@@ -1,6 +1,9 @@
 module Web.View.Bugs.Edit where
 import Web.View.Prelude
 
+import qualified Text.MMark as MMark -- markdown library (mmark)
+
+
 data EditView = EditView { bug :: Bug }
 
 instance View EditView where
@@ -22,7 +25,7 @@ renderForm bug = formFor bug [hsx|
     {(textField #bugType)}
     {(textField #bugStatus)}
     {(textField #bugTags)}
-    {(textField #bugDescription)}
+    {(textareaField #bugDescription) { helpText = "Markdown Supported"}}
     {(textField #bugContent)}
     {(textField #bugBlueTrackerLink)}
     {(textField #userId)}

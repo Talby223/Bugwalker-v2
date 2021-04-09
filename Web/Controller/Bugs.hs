@@ -6,6 +6,10 @@ import Web.View.Bugs.New
 import Web.View.Bugs.Edit
 import Web.View.Bugs.Show
 
+import qualified Text.MMark as MMark -- markdown library (mmark)
+
+
+
 instance Controller BugsController where
     action BugsAction = do
         bugs <- query @Bug |> fetch
@@ -53,3 +57,9 @@ instance Controller BugsController where
 
 buildBug bug = bug
     |> fill @["spellId","bugSeverity","bugType","bugStatus","bugTags","bugDescription","bugContent","bugBlueTrackerLink","userId","bugPinned"]
+
+isMarkdown :: Text -> ValidatorResult
+isMarkdown text =
+    case MMark.parse "" text of
+        Left _ -> Failure "Please provide valid Markdown"
+        Right _ -> Success
