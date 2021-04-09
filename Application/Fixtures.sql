@@ -2889,6 +2889,7 @@ ALTER TABLE public.spells ENABLE TRIGGER ALL;
 
 ALTER TABLE public.users DISABLE TRIGGER ALL;
 
+INSERT INTO public.users (id, created_at, email, last_login, password_hash, locked_at, failed_login_attempts, username, user_role, password_salt, user_avatar) VALUES ('e123ba1f-a2a8-4666-b3b2-e057dd056a3c', '2021-03-29 15:25:04.941243-05', 'Generaldov@gmail.com', '2021-03-29 15:25:04.941243-05', 'sha256|17|T4WsQxtXYoa3hjIAbU6ccQ==|wW8X6T4W8IhCzNGOECK4O8t0H69+mRuA4zNbKzbb52M=', NULL, 0, '', 1, '', '');
 
 
 ALTER TABLE public.users ENABLE TRIGGER ALL;

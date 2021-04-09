@@ -5,6 +5,7 @@ import Web.Controller.Prelude
 import Web.View.Layout (defaultLayout)
 
 -- Controller Imports
+import Web.Controller.Comments
 import Web.Controller.Bugs
 import Web.Controller.Users
 import Web.Controller.Specs
@@ -19,6 +20,7 @@ instance FrontController WebApplication where
     controllers = 
         [ startPage WelcomeAction
         -- Generator Marker
+        , parseRoute @CommentsController
         , parseRoute @BugsController
         , parseRoute @UsersController
         , parseRoute @SpecsController
