@@ -51,7 +51,8 @@ CREATE TABLE bugs (
     bug_content TEXT NOT NULL,
     bug_blue_tracker_link TEXT NOT NULL,
     user_id UUID NOT NULL,
-    bug_pinned BOOLEAN DEFAULT false NOT NULL
+    bug_pinned BOOLEAN DEFAULT false NOT NULL,
+    bug_title TEXT NOT NULL
 );
 CREATE TABLE comments (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,

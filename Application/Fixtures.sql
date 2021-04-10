@@ -14,12 +14,49 @@ SET row_security = off;
 
 SET SESSION AUTHORIZATION DEFAULT;
 
+ALTER TABLE public.users DISABLE TRIGGER ALL;
+
+INSERT INTO public.users (id, created_at, email, last_login, password_hash, locked_at, failed_login_attempts, username, user_role, password_salt, user_avatar) VALUES ('e123ba1f-a2a8-4666-b3b2-e057dd056a3c', '2021-03-29 15:25:04.941243-05', 'Generaldov@gmail.com', '2021-03-29 15:25:04.941243-05', 'sha256|17|T4WsQxtXYoa3hjIAbU6ccQ==|wW8X6T4W8IhCzNGOECK4O8t0H69+mRuA4zNbKzbb52M=', NULL, 0, '', 1, '', '');
+
+
+ALTER TABLE public.users ENABLE TRIGGER ALL;
+
+
+ALTER TABLE public.bugs DISABLE TRIGGER ALL;
+
+
+
+ALTER TABLE public.bugs ENABLE TRIGGER ALL;
+
+
 ALTER TABLE public.builds DISABLE TRIGGER ALL;
 
 INSERT INTO public.builds (id, created_at, build_string, build_date) VALUES ('c87b35d7-f107-4f57-90f8-c0c6035e3ff2', '2021-03-25 19:33:02.693199-05', 'c87b35d7-f107-4f57-90f8-c0c6035e3ff2', '2021-03-25 19:33:02.693199-05');
 
 
 ALTER TABLE public.builds ENABLE TRIGGER ALL;
+
+
+ALTER TABLE public.comments DISABLE TRIGGER ALL;
+
+INSERT INTO public.comments (id, user_id, comment_body, created_at, comment_status) VALUES ('31b3409b-f47f-4ef7-9c25-e8beb9493fc3', 'e123ba1f-a2a8-4666-b3b2-e057dd056a3c', 'howdy', '2021-04-10 01:19:22.0001-05', 0);
+
+
+ALTER TABLE public.comments ENABLE TRIGGER ALL;
+
+
+ALTER TABLE public.run_game_asset_update_jobs DISABLE TRIGGER ALL;
+
+
+
+ALTER TABLE public.run_game_asset_update_jobs ENABLE TRIGGER ALL;
+
+
+ALTER TABLE public.specs DISABLE TRIGGER ALL;
+
+
+
+ALTER TABLE public.specs ENABLE TRIGGER ALL;
 
 
 ALTER TABLE public.spells DISABLE TRIGGER ALL;
@@ -2885,41 +2922,5 @@ INSERT INTO public.spells (id, build_id, game_id, spell_name, spell_description,
 
 
 ALTER TABLE public.spells ENABLE TRIGGER ALL;
-
-
-ALTER TABLE public.users DISABLE TRIGGER ALL;
-
-INSERT INTO public.users (id, created_at, email, last_login, password_hash, locked_at, failed_login_attempts, username, user_role, password_salt, user_avatar) VALUES ('e123ba1f-a2a8-4666-b3b2-e057dd056a3c', '2021-03-29 15:25:04.941243-05', 'Generaldov@gmail.com', '2021-03-29 15:25:04.941243-05', 'sha256|17|T4WsQxtXYoa3hjIAbU6ccQ==|wW8X6T4W8IhCzNGOECK4O8t0H69+mRuA4zNbKzbb52M=', NULL, 0, '', 1, '', '');
-
-
-ALTER TABLE public.users ENABLE TRIGGER ALL;
-
-
-ALTER TABLE public.bugs DISABLE TRIGGER ALL;
-
-
-
-ALTER TABLE public.bugs ENABLE TRIGGER ALL;
-
-
-ALTER TABLE public.comments DISABLE TRIGGER ALL;
-
-
-
-ALTER TABLE public.comments ENABLE TRIGGER ALL;
-
-
-ALTER TABLE public.run_game_asset_update_jobs DISABLE TRIGGER ALL;
-
-
-
-ALTER TABLE public.run_game_asset_update_jobs ENABLE TRIGGER ALL;
-
-
-ALTER TABLE public.specs DISABLE TRIGGER ALL;
-
-
-
-ALTER TABLE public.specs ENABLE TRIGGER ALL;
 
 

@@ -17,6 +17,7 @@ instance View NewView where
 
 renderForm :: Bug -> Html
 renderForm bug = formFor bug [hsx|
+    {(textField #bugTitle)}
     {(textField #spellId)}
     {(textField #bugSeverity)}
     {(textField #bugType)}

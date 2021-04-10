@@ -29,7 +29,7 @@ instance View IndexView where
 
 renderBug bug = [hsx|
     <tr>
-        <td>{bug}</td>
+        <td>{get #bugTitle bug}</td>
         <td><a href={ShowBugAction (get #id bug)}>Show</a></td>
         <td><a href={EditBugAction (get #id bug)} class="text-muted">Edit</a></td>
         <td><a href={DeleteBugAction (get #id bug)} class="js-delete text-muted">Delete</a></td>
