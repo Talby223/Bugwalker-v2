@@ -57,6 +57,7 @@ instance Controller BugsController where
 
 buildBug bug = bug
     |> fill @["spellId","bugSeverity","bugType","bugStatus","bugTags","bugDescription","bugContent","bugBlueTrackerLink","userId","bugPinned"]
+    |> validateField #bugDescription nonEmpty
 
 isMarkdown :: Text -> ValidatorResult
 isMarkdown text =

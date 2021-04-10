@@ -14,8 +14,10 @@ instance View ShowView where
                 <li class="breadcrumb-item active">Show Bug</li>
             </ol>
         </nav>
-        <h1>Show Bug</h1>
+        <h1>{get #bugDescription bug}</h1>
         <p>{bug}</p>
+
+        <a href={NewCommentAction}>Add Comment</a>
     |]
 
 renderMarkdown text = text
