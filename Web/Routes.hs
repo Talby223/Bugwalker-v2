@@ -13,5 +13,6 @@ instance AutoRoute SessionsController
 instance AutoRoute UsersController
 
 
+instance AutoRoute BugsController
 instance AutoRoute CommentsController
 

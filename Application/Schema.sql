@@ -40,7 +40,7 @@ CREATE TYPE bug_type AS ENUM ('mechanical', 'visual', 'system');
 CREATE TYPE bug_status AS ENUM ('pending', 'open', 'closed');
 CREATE TABLE bugs (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
-    spell_id UUID NOT NULL,
+    spell_id UUID DEFAULT uuid_generate_v4() NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     modified_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     bug_severity bug_severity NOT NULL,
@@ -71,7 +71,6 @@ CREATE TABLE run_game_asset_update_jobs (
     locked_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
     locked_by UUID DEFAULT NULL
 );
-ALTER TABLE bugs ADD CONSTRAINT bugs_ref_spell_id FOREIGN KEY (spell_id) REFERENCES spells (id) ON DELETE NO ACTION;
 ALTER TABLE bugs ADD CONSTRAINT bugs_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
 ALTER TABLE comments ADD CONSTRAINT comments_ref_bug_id FOREIGN KEY (bug_id) REFERENCES bugs (id) ON DELETE NO ACTION;
 ALTER TABLE comments ADD CONSTRAINT comments_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;

@@ -7,7 +7,7 @@ import Web.View.Comments.Edit
 import Web.View.Comments.Show
 
 instance Controller CommentsController where
-    beforeAction = ensureIsUser
+  beforeAction = ensureIsUser
 
     action CommentsAction = do
         comments <- query @Comment |> fetch
