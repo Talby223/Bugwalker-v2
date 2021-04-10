@@ -52,7 +52,7 @@ data BugsController
     | UpdateBugAction { bugId :: !(Id Bug) }
     | DeleteBugAction { bugId :: !(Id Bug) }
     deriving (Eq, Show, Data)
-
+    
 data CommentsController
     = CommentsAction
     | NewCommentAction

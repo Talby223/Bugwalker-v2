@@ -58,7 +58,8 @@ CREATE TABLE comments (
     user_id UUID NOT NULL,
     comment_body TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    comment_status INT DEFAULT 0 NOT NULL
+    comment_status INT DEFAULT 0 NOT NULL,
+    bug_id UUID NOT NULL
 );
 CREATE TABLE run_game_asset_update_jobs (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
@@ -71,5 +72,6 @@ CREATE TABLE run_game_asset_update_jobs (
     locked_by UUID DEFAULT NULL
 );
 ALTER TABLE bugs ADD CONSTRAINT bugs_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
+ALTER TABLE comments ADD CONSTRAINT comments_ref_bug_id FOREIGN KEY (bug_id) REFERENCES bugs (id) ON DELETE NO ACTION;
 ALTER TABLE comments ADD CONSTRAINT comments_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
 ALTER TABLE spells ADD CONSTRAINT spells_ref_build_id FOREIGN KEY (build_id) REFERENCES builds (id) ON DELETE NO ACTION;
