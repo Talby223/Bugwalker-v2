@@ -56,7 +56,7 @@ instance Controller BugsController where
         redirectTo BugsAction
 
 buildBug bug = bug
-    |> fill @["spellId","bugSeverity","bugType","bugStatus","bugTags","bugDescription","bugContent","bugBlueTrackerLink","userId","bugPinned"]
+    |> fill @["bugTitle","spellId","bugSeverity","bugType","bugStatus","bugTags","bugDescription","bugContent","bugBlueTrackerLink","userId","bugPinned"]
     |> validateField #bugDescription nonEmpty
 
 isMarkdown :: Text -> ValidatorResult
