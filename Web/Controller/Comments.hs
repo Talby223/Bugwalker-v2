@@ -16,6 +16,7 @@ instance Controller CommentsController where
         ensureIsUser
         let comment = newRecord
                 |> set #bugId bugId
+                |> set #userId currentUserId
         post <- fetch bugId
         render NewView { .. }
 
@@ -62,4 +63,5 @@ instance Controller CommentsController where
         redirectTo CommentsAction
 
 buildComment comment = comment
-    |> fill @["userId","commentBody","commentStatus"]
+    |> fill @["userId","commentBody","commentStatus", "bugId"]
+

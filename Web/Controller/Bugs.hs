@@ -49,6 +49,7 @@ instance Controller BugsController where
         let bug = newRecord @Bug
         bug
             |> buildBug
+            |> validateField #bugTitle nonEmpty
             |> ifValid \case
                 Left bug -> render NewView { .. } 
                 Right bug -> do
