@@ -55,8 +55,8 @@ instance Controller CommentsController where
 
     action DeleteCommentAction { commentId } = do
         ensureIsUser
-        accessDeniedUnless (get #userId comment == currentUserId)
         comment <- fetch commentId
+        accessDeniedUnless (get #userId comment == currentUserId)
         deleteRecord comment
         setSuccessMessage "Comment deleted"
         redirectTo CommentsAction
