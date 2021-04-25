@@ -16,6 +16,7 @@ instance View ShowView where
         </nav>
         <h1>{get #bugDescription bug}</h1>
         <h1>{get #bugContent bug}</h1>
+        <p>{get #createdAt bug |> timeAgo}</p>
         <p>{bug}</p>
 
         <a href={NewCommentAction}>Add Comment</a>

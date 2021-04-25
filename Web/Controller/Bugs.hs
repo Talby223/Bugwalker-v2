@@ -12,7 +12,9 @@ import qualified Text.MMark as MMark -- markdown library (mmark)
 
 instance Controller BugsController where
     action BugsAction = do
-        bugs <- query @Bug |> fetch
+        bugs <- query @Bug
+            |> orderByDesc #createdAt 
+            |> fetch
         render IndexView { .. }
 
     action NewBugAction = do
