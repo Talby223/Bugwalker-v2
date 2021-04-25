@@ -19,7 +19,7 @@ instance View ShowView where
         <p>{get #createdAt bug |> timeAgo}</p>
         <p>{bug}</p>
 
-        <a href={NewCommentAction}>Add Comment</a>
+        <a href={NewCommentAction (get #id bug)}>Add Comment</a>
     |]
 
 renderMarkdown text = text

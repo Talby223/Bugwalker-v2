@@ -12,7 +12,7 @@ instance Controller CommentsController where
         comments <- query @Comment |> fetch
         render IndexView { .. }
 
-    action NewCommentAction = do
+    action NewCommentAction { bugId } = do
         let comment = newRecord
         render NewView { .. }
 
