@@ -23,6 +23,7 @@ instance Controller BugsController where
 
     action ShowBugAction { bugId } = do
         bug <- fetch bugId
+            >>= fetchRelated #comments
         render ShowView { .. }
 
     action EditBugAction { bugId } = do
