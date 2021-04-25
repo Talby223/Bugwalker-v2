@@ -55,7 +55,7 @@ data BugsController
     
 data CommentsController
     = CommentsAction
-    | NewCommentAction
+    | NewCommentAction { bugId :: !(Id Bug) }
     | ShowCommentAction { commentId :: !(Id Comment) }
     | CreateCommentAction
     | EditCommentAction { commentId :: !(Id Comment) }

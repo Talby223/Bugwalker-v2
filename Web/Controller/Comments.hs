@@ -12,8 +12,12 @@ instance Controller CommentsController where
         comments <- query @Comment |> fetch
         render IndexView { .. }
 
-    action NewCommentAction = do
+    action NewCommentAction { bugId } = do
+        ensureIsUser
         let comment = newRecord
+                |> set #bugId bugId
+                |> set #userId currentUserId
+        post <- fetch bugId
         render NewView { .. }
 
     action ShowCommentAction { commentId } = do
@@ -22,6 +26,7 @@ instance Controller CommentsController where
 
     action EditCommentAction { commentId } = do
         comment <- fetch commentId
+        accessDeniedUnless (get #userId comment == currentUserId)
         render EditView { .. }
 
     action UpdateCommentAction { commentId } = do
@@ -36,21 +41,27 @@ instance Controller CommentsController where
                     redirectTo EditCommentAction { .. }
 
     action CreateCommentAction = do
+        ensureIsUser
         let comment = newRecord @Comment
         comment
             |> buildComment
             |> ifValid \case
-                Left comment -> render NewView { .. } 
+                Left comment -> do
+                    post <- fetch (get #bugId comment)
+                    render NewView { .. }
                 Right comment -> do
                     comment <- comment |> createRecord
                     setSuccessMessage "Comment created"
-                    redirectTo CommentsAction
+                    redirectTo ShowBugAction { bugId = get #bugId comment }
 
     action DeleteCommentAction { commentId } = do
+        ensureIsUser
         comment <- fetch commentId
+        accessDeniedUnless (get #userId comment == currentUserId)
         deleteRecord comment
         setSuccessMessage "Comment deleted"
         redirectTo CommentsAction
 
 buildComment comment = comment
-    |> fill @["userId","commentBody","commentStatus"]
+    |> fill @["userId","commentBody","commentStatus", "bugId"]
+

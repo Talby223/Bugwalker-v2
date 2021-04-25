@@ -11,20 +11,31 @@ import qualified Text.MMark as MMark -- markdown library (mmark)
 
 
 instance Controller BugsController where
+    
     action BugsAction = do
-        bugs <- query @Bug |> fetch
+        bugs <- query @Bug
+            |> orderByDesc #createdAt 
+            |> fetch
         render IndexView { .. }
 
     action NewBugAction = do
+        ensureIsUser
         let bug = newRecord
         render NewView { .. }
 
     action ShowBugAction { bugId } = do
         bug <- fetch bugId
+        comments <- bug
+            |> get #comments
+            |> orderBy #createdAt
+            |> fetch
+            >>= collectionFetchRelated #userId
+
         render ShowView { .. }
 
     action EditBugAction { bugId } = do
         bug <- fetch bugId
+        accessDeniedUnless (get #userId bug == currentUserId)
         render EditView { .. }
 
     action UpdateBugAction { bugId } = do
@@ -42,6 +53,7 @@ instance Controller BugsController where
         let bug = newRecord @Bug
         bug
             |> buildBug
+            |> validateField #bugTitle nonEmpty
             |> ifValid \case
                 Left bug -> render NewView { .. } 
                 Right bug -> do
@@ -51,6 +63,7 @@ instance Controller BugsController where
 
     action DeleteBugAction { bugId } = do
         bug <- fetch bugId
+        accessDeniedUnless (get #userId bug == currentUserId)
         deleteRecord bug
         setSuccessMessage "Bug deleted"
         redirectTo BugsAction
