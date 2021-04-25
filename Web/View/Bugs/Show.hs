@@ -15,7 +15,7 @@ instance View ShowView where
             </ol>
         </nav>
         <h1>{get #bugDescription bug}</h1>
-        <h1>{get #bugContent bug}</h1>
+        <h1>{get #bugContent bug |> renderMarkdown}</h1>
         <p>{get #createdAt bug |> timeAgo}</p>
         <p>{bug}</p>
 
