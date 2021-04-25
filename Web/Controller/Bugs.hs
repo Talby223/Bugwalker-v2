@@ -11,6 +11,7 @@ import qualified Text.MMark as MMark -- markdown library (mmark)
 
 
 instance Controller BugsController where
+    
     action BugsAction = do
         bugs <- query @Bug
             |> orderByDesc #createdAt 
@@ -18,6 +19,7 @@ instance Controller BugsController where
         render IndexView { .. }
 
     action NewBugAction = do
+        ensureIsUser
         let bug = newRecord
         render NewView { .. }
 
@@ -29,6 +31,7 @@ instance Controller BugsController where
 
     action EditBugAction { bugId } = do
         bug <- fetch bugId
+        accessDeniedUnless (get #userId bug == currentUserId)
         render EditView { .. }
 
     action UpdateBugAction { bugId } = do
@@ -55,6 +58,7 @@ instance Controller BugsController where
 
     action DeleteBugAction { bugId } = do
         bug <- fetch bugId
+        accessDeniedUnless (get #userId bug == currentUserId)
         deleteRecord bug
         setSuccessMessage "Bug deleted"
         redirectTo BugsAction

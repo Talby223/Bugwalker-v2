@@ -13,6 +13,7 @@ instance Controller CommentsController where
         render IndexView { .. }
 
     action NewCommentAction { bugId } = do
+        ensureIsUser
         let comment = newRecord
                 |> set #bugId bugId
         post <- fetch bugId
@@ -24,6 +25,7 @@ instance Controller CommentsController where
 
     action EditCommentAction { commentId } = do
         comment <- fetch commentId
+        accessDeniedUnless (get #userId comment == currentUserId)
         render EditView { .. }
 
     action UpdateCommentAction { commentId } = do
@@ -38,6 +40,7 @@ instance Controller CommentsController where
                     redirectTo EditCommentAction { .. }
 
     action CreateCommentAction = do
+        ensureIsUser
         let comment = newRecord @Comment
         comment
             |> buildComment
@@ -51,6 +54,8 @@ instance Controller CommentsController where
                     redirectTo ShowBugAction { bugId = get #bugId comment }
 
     action DeleteCommentAction { commentId } = do
+        ensureIsUser
+        accessDeniedUnless (get #userId comment == currentUserId)
         comment <- fetch commentId
         deleteRecord comment
         setSuccessMessage "Comment deleted"
