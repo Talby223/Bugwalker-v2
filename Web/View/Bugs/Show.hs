@@ -26,6 +26,7 @@ instance View ShowView where
 renderComment comment = [hsx|
     <div class="mt-4">
         <h5>{get #userId comment |> get #username}</h5>
+        <p>{get #createdAt comment |> timeAgo}</p>
         <p>{get #commentBody comment}</p>
     </div>
 |]
