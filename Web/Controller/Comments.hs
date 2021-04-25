@@ -14,6 +14,8 @@ instance Controller CommentsController where
 
     action NewCommentAction { bugId } = do
         let comment = newRecord
+                |> set #bugId bugId
+        post <- fetch bugId
         render NewView { .. }
 
     action ShowCommentAction { commentId } = do
@@ -40,7 +42,9 @@ instance Controller CommentsController where
         comment
             |> buildComment
             |> ifValid \case
-                Left comment -> render NewView { .. } 
+                Left comment -> do
+                    post <- fetch (get #bugId comment)
+                    render NewView { .. }
                 Right comment -> do
                     comment <- comment |> createRecord
                     setSuccessMessage "Comment created"
