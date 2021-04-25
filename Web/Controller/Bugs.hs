@@ -30,7 +30,6 @@ instance Controller BugsController where
             |> orderBy #createdAt
             |> fetch
             >>= collectionFetchRelated #userId
-
         render ShowView { .. }
 
     action EditBugAction { bugId } = do
