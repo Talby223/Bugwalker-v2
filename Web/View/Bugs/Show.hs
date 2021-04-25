@@ -23,7 +23,11 @@ instance View ShowView where
         <a href={NewCommentAction (get #id bug)}>Add Comment</a>
     |]
 
-renderComment comment = [hsx|<div>{comment}</div>|]
-
+renderComment comment = [hsx|
+    <div class="mt-4">
+        <h5>{get #userId comment}</h5>
+                <p>{get #userId comment}</p>
+                </div>
+|]
 renderMarkdown text = text
 
