@@ -4,4 +4,8 @@ import Generated.Types
 import Admin.Types
 
 -- Generator Marker
+instance AutoRoute StaticController
+
 instance AutoRoute SessionsController
+
+
