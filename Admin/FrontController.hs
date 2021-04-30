@@ -4,6 +4,9 @@ import IHP.RouterPrelude
 import Admin.Controller.Prelude
 import Admin.View.Layout (defaultLayout)
 
+import IHP.LoginSupport.Middleware
+import Web.Controller.Sessions
+
 -- Controller Imports
 import Admin.Controller.Static
 
@@ -17,4 +20,5 @@ instance InitControllerContext AdminApplication where
     initContext = do
         setLayout defaultLayout
         initAutoRefresh
+        initAuthentication @Admin
 
