@@ -28,6 +28,8 @@ renderComment comment = [hsx|
         <h5>{get #userId comment |> get #username}</h5>
         <p>{get #createdAt comment |> timeAgo}</p>
         <p>{get #commentBody comment}</p>
+        <td><a href={EditCommentAction (get #id comment)} class="text-muted">Edit</a></td>
+        <td><a href={DeleteCommentAction (get #id comment)} class="js-delete text-muted">Delete</a></td>        
     </div>
 |]
 renderMarkdown text = text

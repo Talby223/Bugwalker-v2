@@ -14,7 +14,7 @@ instance FrontController AdminApplication where
     controllers = 
         [ startPage WelcomeAction
         -- Generator Marker
-        , parseRoute @StaticController        
+        , parseRoute @StaticController
         ]
 
 instance InitControllerContext AdminApplication where

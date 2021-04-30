@@ -34,6 +34,7 @@ instance Controller BugsController where
 
     action EditBugAction { bugId } = do
         bug <- fetch bugId
+        
         accessDeniedUnless (get #userId bug == currentUserId)
         render EditView { .. }
 
