@@ -63,7 +63,7 @@ instance Controller BugsController where
 
     action DeleteBugAction { bugId } = do
         bug <- fetch bugId
-        accessDeniedUnless (get #userId bug == currentUserId)
+        accessDeniedUnless (get #userId bug == currentUserId || get #userRole currentUser > 1)
         deleteRecord bug
         setSuccessMessage "Bug deleted"
         redirectTo BugsAction
