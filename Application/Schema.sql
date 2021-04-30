@@ -81,6 +81,6 @@ CREATE TABLE "admin" (
 );
 ALTER TABLE bugs ADD CONSTRAINT bugs_ref_spell_id FOREIGN KEY (spell_id) REFERENCES spells (id) ON DELETE NO ACTION;
 ALTER TABLE bugs ADD CONSTRAINT bugs_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
-ALTER TABLE comments ADD CONSTRAINT comments_ref_bug_id FOREIGN KEY (bug_id) REFERENCES bugs (id) ON DELETE NO ACTION;
+ALTER TABLE comments ADD CONSTRAINT comments_ref_bug_id FOREIGN KEY (bug_id) REFERENCES bugs (id) ON DELETE CASCADE;
 ALTER TABLE comments ADD CONSTRAINT comments_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
 ALTER TABLE spells ADD CONSTRAINT spells_ref_build_id FOREIGN KEY (build_id) REFERENCES builds (id) ON DELETE NO ACTION;
