@@ -18,3 +18,9 @@ instance HasNewSessionUrl Admin where
     newSessionUrl _ = "/NewSession"
 
 type instance CurrentAdminRecord = Admin
+
+data SessionsController
+    = NewSessionAction
+    | CreateSessionAction
+    | DeleteSessionAction
+    deriving (Eq, Show, Data)
