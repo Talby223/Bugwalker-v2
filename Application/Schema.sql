@@ -72,6 +72,13 @@ CREATE TABLE run_game_asset_update_jobs (
     locked_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
     locked_by UUID DEFAULT NULL
 );
+CREATE TABLE "admin" (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
+    email TEXT NOT NULL,
+    password_hash TEXT NOT NULL,
+    locked_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    failed_login_attempts TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
+);
 ALTER TABLE bugs ADD CONSTRAINT bugs_ref_spell_id FOREIGN KEY (spell_id) REFERENCES spells (id) ON DELETE NO ACTION;
 ALTER TABLE bugs ADD CONSTRAINT bugs_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
 ALTER TABLE comments ADD CONSTRAINT comments_ref_bug_id FOREIGN KEY (bug_id) REFERENCES bugs (id) ON DELETE NO ACTION;
