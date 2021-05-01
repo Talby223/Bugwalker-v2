@@ -31,7 +31,7 @@ CREATE TABLE users (
     locked_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
     failed_login_attempts INT DEFAULT 0 NOT NULL,
     username TEXT NOT NULL UNIQUE,
-    user_role INT DEFAULT 1 NOT NULL,
+    user_role INT DEFAULT 0 NOT NULL,
     password_salt TEXT NOT NULL,
     user_avatar TEXT NOT NULL
 );
