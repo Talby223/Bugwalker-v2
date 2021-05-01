@@ -14,19 +14,11 @@ SET row_security = off;
 
 SET SESSION AUTHORIZATION DEFAULT;
 
-ALTER TABLE public.users DISABLE TRIGGER ALL;
-
-INSERT INTO public.users (id, created_at, email, last_login, password_hash, locked_at, failed_login_attempts, username, user_role, password_salt, user_avatar) VALUES ('e123ba1f-a2a8-4666-b3b2-e057dd056a3c', '2021-03-29 15:25:04.941243-05', 'Generaldov@gmail.com', '2021-03-29 15:25:04.941243-05', 'sha256|17|T4WsQxtXYoa3hjIAbU6ccQ==|wW8X6T4W8IhCzNGOECK4O8t0H69+mRuA4zNbKzbb52M=', NULL, 0, '', 1, '', '');
-
-
-ALTER TABLE public.users ENABLE TRIGGER ALL;
-
-
-ALTER TABLE public.bugs DISABLE TRIGGER ALL;
+ALTER TABLE public.admin DISABLE TRIGGER ALL;
 
 
 
-ALTER TABLE public.bugs ENABLE TRIGGER ALL;
+ALTER TABLE public.admin ENABLE TRIGGER ALL;
 
 
 ALTER TABLE public.builds DISABLE TRIGGER ALL;
@@ -35,28 +27,6 @@ INSERT INTO public.builds (id, created_at, build_string, build_date) VALUES ('c8
 
 
 ALTER TABLE public.builds ENABLE TRIGGER ALL;
-
-
-ALTER TABLE public.comments DISABLE TRIGGER ALL;
-
-INSERT INTO public.comments (id, user_id, comment_body, created_at, comment_status) VALUES ('31b3409b-f47f-4ef7-9c25-e8beb9493fc3', 'e123ba1f-a2a8-4666-b3b2-e057dd056a3c', 'howdy', '2021-04-10 01:19:22.0001-05', 0);
-
-
-ALTER TABLE public.comments ENABLE TRIGGER ALL;
-
-
-ALTER TABLE public.run_game_asset_update_jobs DISABLE TRIGGER ALL;
-
-
-
-ALTER TABLE public.run_game_asset_update_jobs ENABLE TRIGGER ALL;
-
-
-ALTER TABLE public.specs DISABLE TRIGGER ALL;
-
-
-
-ALTER TABLE public.specs ENABLE TRIGGER ALL;
 
 
 ALTER TABLE public.spells DISABLE TRIGGER ALL;
@@ -2922,5 +2892,53 @@ INSERT INTO public.spells (id, build_id, game_id, spell_name, spell_description,
 
 
 ALTER TABLE public.spells ENABLE TRIGGER ALL;
+
+
+ALTER TABLE public.users DISABLE TRIGGER ALL;
+
+INSERT INTO public.users (id, created_at, email, last_login, password_hash, locked_at, failed_login_attempts, username, user_role, password_salt, user_avatar) VALUES ('e123ba1f-a2a8-4666-b3b2-e057dd056a3c', '2021-03-29 15:25:04.941243-05', 'Generaldov@gmail.com', '2021-03-29 15:25:04.941243-05', 'sha256|17|T4WsQxtXYoa3hjIAbU6ccQ==|wW8X6T4W8IhCzNGOECK4O8t0H69+mRuA4zNbKzbb52M=', NULL, 0, '', 1, '', '');
+INSERT INTO public.users (id, created_at, email, last_login, password_hash, locked_at, failed_login_attempts, username, user_role, password_salt, user_avatar) VALUES ('168441db-c442-44b3-90d0-d199d3735101', '2021-04-25 08:51:13.694511-05', 'bug@bug.com', '2021-04-25 08:51:13.694511-05', '', NULL, 1, 'bugby', 1, '', '');
+INSERT INTO public.users (id, created_at, email, last_login, password_hash, locked_at, failed_login_attempts, username, user_role, password_salt, user_avatar) VALUES ('5654f9bd-07f8-4722-8cab-22de82c25b27', '2021-04-10 20:13:15.148012-05', 'TestEmail@email.com', '2021-04-10 20:13:15.148012-05', 'sha256|17|7egewwYmVK6QVEGXJ0noWQ==|grmsO8gwEUmJ7a38Nui5xRynlbgx07N+xkCl3sNIFBM=', NULL, 2, 'TestBug', 1, '', '');
+INSERT INTO public.users (id, created_at, email, last_login, password_hash, locked_at, failed_login_attempts, username, user_role, password_salt, user_avatar) VALUES ('ce422cfc-bd3e-4809-95a1-7f1f398d2148', '2021-04-25 08:54:34.168822-05', 'TestMe@email.com', '2021-04-25 08:54:34.168822-05', 'sha256|17|IKQMTApR9KLJeQlY6vzz6Q==|Klp9XLG52v+l5tfMHnEuTu6W8nXVa7PlkAE+mI2uTh0=', NULL, 0, 'Testby', 1, '', '');
+INSERT INTO public.users (id, created_at, email, last_login, password_hash, locked_at, failed_login_attempts, username, user_role, password_salt, user_avatar) VALUES ('7223bb1a-686f-4b74-a1c0-fd688f247372', '2021-05-01 08:40:56.798629-05', 'UserLevel@Level.com', '2021-05-01 08:40:56.798629-05', 'sha256|17|yXiRj7hgB58B35SRErl4zQ==|i9NCme3qGqvYnNqMTnGreLZ85/izVusPH64FZ6XdiZY=', NULL, 0, 'TestUserLevel', 1, '', '');
+
+
+ALTER TABLE public.users ENABLE TRIGGER ALL;
+
+
+ALTER TABLE public.bugs DISABLE TRIGGER ALL;
+
+INSERT INTO public.bugs (id, spell_id, created_at, modified_at, bug_severity, bug_type, bug_status, bug_tags, bug_description, bug_content, bug_blue_tracker_link, user_id, bug_pinned, bug_title) VALUES ('c4362072-3c3e-4356-88d9-7f35e2b20111', '00000000-0000-0000-0000-000000000000', '2021-04-10 20:15:06.224828-05', '2021-04-10 20:15:06.224828-05', 'low', 'mechanical', 'pending', 'PvP', 'I just love **bold text**.', 'I just love **bold text**.', '', '5654f9bd-07f8-4722-8cab-22de82c25b27', false, 'Forgot Title');
+INSERT INTO public.bugs (id, spell_id, created_at, modified_at, bug_severity, bug_type, bug_status, bug_tags, bug_description, bug_content, bug_blue_tracker_link, user_id, bug_pinned, bug_title) VALUES ('8db2a472-3f6c-4a2f-9337-7944da558e94', '00a16d0c-2e85-4fd9-80c4-ea906273542b', '2021-04-10 11:30:52.985686-05', '2021-04-10 11:30:52.985686-05', 'low', 'visual', 'open', 'pve', 'demo bug', 'demo bug', '', 'e123ba1f-a2a8-4666-b3b2-e057dd056a3c', true, 'Demo broke');
+
+
+ALTER TABLE public.bugs ENABLE TRIGGER ALL;
+
+
+ALTER TABLE public.comments DISABLE TRIGGER ALL;
+
+INSERT INTO public.comments (id, user_id, comment_body, created_at, comment_status, bug_id) VALUES ('932d2118-743b-40de-8a2f-d0ff97d53d29', '168441db-c442-44b3-90d0-d199d3735101', 'hey', '2021-04-19 16:53:04.746107-05', 0, '8db2a472-3f6c-4a2f-9337-7944da558e94');
+INSERT INTO public.comments (id, user_id, comment_body, created_at, comment_status, bug_id) VALUES ('c0e59da3-68bd-40cf-b5cf-4fb021c65d8e', '168441db-c442-44b3-90d0-d199d3735101', 'howdy', '2021-04-19 16:54:45.816229-05', 1, '8db2a472-3f6c-4a2f-9337-7944da558e94');
+INSERT INTO public.comments (id, user_id, comment_body, created_at, comment_status, bug_id) VALUES ('f036921b-2d71-45d5-b272-e608cc852f1d', 'ce422cfc-bd3e-4809-95a1-7f1f398d2148', 'sample', '2021-04-25 14:37:53.753194-05', 0, '8db2a472-3f6c-4a2f-9337-7944da558e94');
+INSERT INTO public.comments (id, user_id, comment_body, created_at, comment_status, bug_id) VALUES ('f5802522-ed33-42d6-8bc3-9a39d09f137a', '5654f9bd-07f8-4722-8cab-22de82c25b27', 'conversation', '2021-04-25 14:38:21.533988-05', 0, '8db2a472-3f6c-4a2f-9337-7944da558e94');
+INSERT INTO public.comments (id, user_id, comment_body, created_at, comment_status, bug_id) VALUES ('fdade5e7-4cd1-43b9-acaf-5dcf9897cb8d', 'ce422cfc-bd3e-4809-95a1-7f1f398d2148', 'Welcome', '2021-04-25 15:14:13.490139-05', 0, '8db2a472-3f6c-4a2f-9337-7944da558e94');
+INSERT INTO public.comments (id, user_id, comment_body, created_at, comment_status, bug_id) VALUES ('d50724b3-9a1a-48b7-8f58-133134329039', 'ce422cfc-bd3e-4809-95a1-7f1f398d2148', 'did this work', '2021-04-30 10:15:09.962385-05', 0, 'c4362072-3c3e-4356-88d9-7f35e2b20111');
+
+
+ALTER TABLE public.comments ENABLE TRIGGER ALL;
+
+
+ALTER TABLE public.run_game_asset_update_jobs DISABLE TRIGGER ALL;
+
+
+
+ALTER TABLE public.run_game_asset_update_jobs ENABLE TRIGGER ALL;
+
+
+ALTER TABLE public.specs DISABLE TRIGGER ALL;
+
+
+
+ALTER TABLE public.specs ENABLE TRIGGER ALL;
 
 

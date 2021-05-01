@@ -26,7 +26,7 @@ instance Controller CommentsController where
 
     action EditCommentAction { commentId } = do
         comment <- fetch commentId
-        accessDeniedUnless (get #userId comment == currentUserId)
+        accessDeniedUnless (get #userId comment == currentUserId || get #userRole currentUser > 0)
         render EditView { .. }
 
     action UpdateCommentAction { commentId } = do
@@ -57,7 +57,7 @@ instance Controller CommentsController where
     action DeleteCommentAction { commentId } = do
         ensureIsUser
         comment <- fetch commentId
-        accessDeniedUnless (get #userId comment == currentUserId)
+        accessDeniedUnless (get #userId comment == currentUserId || get #userRole currentUser > 0)
         deleteRecord comment
         setSuccessMessage "Comment deleted"
         redirectTo CommentsAction
