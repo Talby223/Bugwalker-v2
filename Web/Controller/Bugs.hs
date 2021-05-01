@@ -34,10 +34,9 @@ instance Controller BugsController where
 
     action EditBugAction { bugId } = do
         bug <- fetch bugId
-        
-        accessDeniedUnless (get #userId bug == currentUserId)
+        accessDeniedUnless (get #userId bug == currentUserId || get #userRole currentUser > 0)
         render EditView { .. }
-
+-- do we need access controls on the update bug action? I don't think so. 
     action UpdateBugAction { bugId } = do
         bug <- fetch bugId
         bug
