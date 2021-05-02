@@ -14,12 +14,10 @@ instance View ShowView where
                 <li class="breadcrumb-item active">Show Bug</li>
             </ol>
         </nav>
+        <p>{get #createdAt bug |> timeAgo}</p>        
         <h1>{get #bugDescription bug}</h1>
         <h1>{get #bugContent bug |> renderMarkdown}</h1>
-        <p>{get #createdAt bug |> timeAgo}</p>
-        <p>{bug}</p>
         <div>{forEach comments renderComment}</div>
-
         <a href={NewCommentAction (get #id bug)}>Add Comment</a>
     |]
 
