@@ -32,8 +32,6 @@ instance ToJSON Bug where
         [ "id" .= get #spellId bug
         , "title" .= get #bugTitle bug
         , "body" .= get #bugDescription bug
-        , "tags" .= get #bugTags bug
-        , "severity" .= get #bugSeverity bug
         ]
 
 renderBug bug = [hsx|
