@@ -4,7 +4,7 @@ import Web.View.Prelude
 import qualified Text.MMark as MMark -- markdown library (mmark)
 
 
-data ShowView = ShowView { bug :: Bug, comments :: [Include "userId" Comment] }
+data ShowView = ShowView { bug :: Bug, spell :: Spell, comments :: [Include "userId" Comment] }
 
 instance View ShowView where
     html ShowView { .. } = [hsx|
@@ -14,12 +14,17 @@ instance View ShowView where
                 <li class="breadcrumb-item active">Show Bug</li>
             </ol>
         </nav>
-        <h1>{get #bugDescription bug}</h1>
-        <h1>{get #bugContent bug |> renderMarkdown}</h1>
+        <h1>{get #bugTitle bug}</h1>
         <p>{get #createdAt bug |> timeAgo}</p>
-        <p>{bug}</p>
+        <br>
+        <p>{get #bugBlueTrackerLink bug}</p>
+        <br>
+        <p><b>Affecting Spell:</b></p>
+        <p>{get #gameId spell} {get #spellName spell } - {get #spellDescription spell}</p>
+        <h2>{get #bugDescription bug}</h2>
+        <p>{get #bugContent bug |> renderMarkdown}</p>
+        <br>
         <div>{forEach comments renderComment}</div>
-
         <a href={NewCommentAction (get #id bug)}>Add Comment</a>
     |]
 

@@ -1,5 +1,6 @@
 module Web.View.Bugs.Index where
 import Web.View.Prelude
+import Data.Aeson
 
 data IndexView = IndexView { bugs :: [Bug] }
 
@@ -26,6 +27,12 @@ instance View IndexView where
         </div>
     |]
 
+instance ToJSON Bug where
+    toJSON bug = object
+        [ "id" .= get #spellId bug
+        , "title" .= get #bugTitle bug
+        , "body" .= get #bugDescription bug
+        ]
 
 renderBug bug = [hsx|
     <tr>

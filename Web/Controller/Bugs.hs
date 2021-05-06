@@ -25,6 +25,9 @@ instance Controller BugsController where
 
     action ShowBugAction { bugId } = do
         bug <- fetch bugId
+        spell <- bug
+            |> get #spellId
+            |> fetch
         comments <- bug
             |> get #comments
             |> orderBy #createdAt
