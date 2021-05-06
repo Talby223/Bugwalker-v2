@@ -21,6 +21,7 @@ instance Controller BugsController where
     action NewBugAction = do
         ensureIsUser
         let bug = newRecord
+                |> set #userId currentUserId
         render NewView { .. }
 
     action ShowBugAction { bugId } = do
@@ -57,7 +58,7 @@ instance Controller BugsController where
             |> buildBug
             |> validateField #bugTitle nonEmpty
             |> validateField #bugTitle (hasMinLength 8)
-            |> validateField #bugBlueTrackerLink (isUrl)
+            |> validateField #bugBlueTrackerLink (talbURL)
             |> ifValid \case
                 Left bug -> render NewView { .. } 
                 Right bug -> do
@@ -81,3 +82,7 @@ isMarkdown text =
     case MMark.parse "" text of
         Left _ -> Failure "Please provide valid Markdown"
         Right _ -> Success
+
+talbURL :: Text -> ValidatorResult
+talbURL "" = Success
+talbURL st = isUrl st

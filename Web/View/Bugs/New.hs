@@ -26,7 +26,7 @@ renderForm bug = formFor bug [hsx|
     {(textField #bugDescription)}
     {(textField #bugContent)}
     {(textField #bugBlueTrackerLink)}
-    {(textField #userId)}
-    {(textField #bugPinned)}
+    {(hiddenField #userId)}
+    {(hiddenField #bugPinned)}
     {submitButton}
 |]
