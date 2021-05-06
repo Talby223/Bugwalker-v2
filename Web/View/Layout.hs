@@ -17,6 +17,12 @@ defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
     {stylesheets}
     {scripts}
 
+    <!-- temp DevExpress CDN --> 
+<link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.7/css/dx.common.css">
+<link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.7/css/dx.light.css">
+
+<script type="text/javascript" src="https://cdn3.devexpress.com/jslib/20.2.7/js/dx.all.js"></script>
+
     <title>App</title>
 </head>
 <body>

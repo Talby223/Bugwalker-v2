@@ -12,26 +12,22 @@ instance View IndexView where
             </ol>
         </nav>
         <h1>Index <a href={pathTo NewBugAction} class="btn btn-primary ml-4">+ New</a></h1>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Bug</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>{forEach bugs renderBug}</tbody>
-            </table>
-        </div>
-    |]
+
+
+<div id="bugsGrid" style="height: 80%"></div>
+
+<script src="js/bugsIndex.js" data-bugs={encode bugs}></script>
+
+
+|]
 
 instance ToJSON Bug where
     toJSON bug = object
-        [ "id" .= get #spellId bug
+        [ "id" .= get #id bug
         , "title" .= get #bugTitle bug
-        , "body" .= get #bugDescription bug
+        , "description" .= get #bugDescription bug
+        , "spell" .= get #spellId bug
+
         ]
 
 renderBug bug = [hsx|
