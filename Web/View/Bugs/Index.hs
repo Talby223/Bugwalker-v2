@@ -12,14 +12,20 @@ instance View IndexView where
             </ol>
         </nav>
         <h1>Index <a href={pathTo NewBugAction} class="btn btn-primary ml-4">+ New</a></h1>
-
-
-<div id="bugsGrid" style="height: 80%"></div>
-
-<script src="js/bugsIndex.js" data-bugs={encode bugs}></script>
-
-
-|]
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>{forEach bugs renderBug}</tbody>
+            </table>
+        </div>
+    |]
 
 instance ToJSON Bug where
     toJSON bug = object
@@ -31,12 +37,21 @@ instance ToJSON Bug where
         ]
 
 renderBug bug = [hsx|
-    <tr>
-        <td><a href={ShowBugAction (get #id bug)}>{get #bugTitle bug}</a></td>
-        <td>{get #spellId bug}</td>
-        <td>{get #bugSeverity bug}</td>
-        <td>{get #bugTags bug}</td>
-        <td><a href={EditBugAction (get #id bug)} class="text-muted">Edit</a></td>
-        <td><a href={DeleteBugAction (get #id bug)} class="js-delete text-muted">Delete</a></td>
-    </tr>
+<div class="bugIndexBug">
+    <div class="row">
+        <div class="col-md-2">
+            <img src="http://placekitten.com/80/80" class="bugIndexSpellImg rounded"/>
+        </div>
+        <div class="col-md-10">
+            <div>
+                <a href={ShowBugAction (get #id bug)}>{get #bugTitle bug} </a>
+            </div>
+            <div>
+                <span class="badge badge-pill badge-primary">{get #bugTags bug}</span> <span class="badge badge-pill badge-primary">{get #bugTags bug}</span>    
+            </div>  
+        </div>
+    </div>
+</div>
 |]
+
+

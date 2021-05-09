@@ -15,7 +15,7 @@ instance View ShowView where
             </ol>
         </nav>
         <h1>{get #bugTitle bug}</h1>
-        <p>{get #createdAt bug |> timeAgo}</p>
+        <p>{get #createdAt bug |> timeAgo} <a href={EditBugAction (get #id bug)} class="text-muted">Edit </a>   <a href={DeleteBugAction (get #id bug)} class="js-delete text-muted">Delete </a></p>
         <br>
         <p>{get #bugBlueTrackerLink bug}</p>
         <br>
