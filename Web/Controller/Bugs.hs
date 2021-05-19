@@ -54,7 +54,6 @@ instance Controller BugsController where
             |> buildBug
             |> validateField #bugTitle nonEmpty
             |> validateField #bugTitle (hasMinLength 8)
-            |> validateField #bugBlueTrackerLink (isUrl)
             |> ifValid \case
                 Left bug -> render NewView { .. } 
                 Right bug -> do
