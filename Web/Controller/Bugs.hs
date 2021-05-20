@@ -75,5 +75,5 @@ buildBug bug = bug
 isMarkdown :: Text -> ValidatorResult
 isMarkdown text =
     case MMark.parse "" text of
-        Left _ -> Failure "Please provide valid Markdown!"
+        Left _ -> Failure "Please provide valid Markdown"
         Right _ -> Success
