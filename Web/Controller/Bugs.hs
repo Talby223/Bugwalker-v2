@@ -53,11 +53,7 @@ instance Controller BugsController where
         bug
             |> buildBug
             |> validateField #bugTitle nonEmpty
-<<<<<<< HEAD
-            |> validateField #bugTitle (hasMinLength 2)
-=======
-            |> validateField #bugTitle (hasMinLength 8)
->>>>>>> 0c18aaff6b99ad9f6f375ade7b7ea0c10e4f0bcc
+            |> validateField #bugTitle (hasMinLength 11)
             |> ifValid \case
                 Left bug -> render NewView { .. } 
                 Right bug -> do
